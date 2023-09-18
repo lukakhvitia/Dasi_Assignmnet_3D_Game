@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -11,8 +13,10 @@ public class FreeLookCamera : MonoBehaviour, IDragHandler, IPointerDownHandler, 
     private Image _camRotationImage;
     private string _mouseX = "Mouse X";
     private string _mouseY = "Mouse Y";
-    
-    
+
+    [SerializeField] private TextMeshProUGUI debugText1;
+
+
     public void OnDrag(PointerEventData eventData)
     {
         _camRotationImage = GetComponent<Image>();
@@ -23,9 +27,9 @@ public class FreeLookCamera : MonoBehaviour, IDragHandler, IPointerDownHandler, 
                 eventData.enterEventCamera,
                 out Vector2 positionOut))
         {
-            //Debug.Log(positionOut);
             _freeLook.m_XAxis.m_InputAxisName = _mouseX;
             _freeLook.m_YAxis.m_InputAxisName = _mouseY;
+            debugText1.text = positionOut.ToString();
         }
     }
 
