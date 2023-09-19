@@ -23,6 +23,16 @@ public class PlayerMovement : MonoBehaviour
       _rigidbody = GetComponent<Rigidbody>();
    }
 
+   private void Start()
+   {
+      PlayerHealth.Instance.OnPlayerDie += HandlePlayerOnDie;
+   }
+
+   private void HandlePlayerOnDie(object sender, EventArgs e)
+   {
+      _animatorController.PlayDeath();
+   }
+
    private void Update()
    {
       Move();
@@ -41,6 +51,14 @@ public class PlayerMovement : MonoBehaviour
          transform.rotation = Quaternion.LookRotation(direction);
 
          _animatorController.PlayRun();
+      }
+      
+      if (_joystick.Horizontal > 1 || _joystick.Vertical > 1)
+      {
+         Vector3 direction = Vector3.RotateTowards(transform.forward, _moveVector, _rotateSpeed * Time.deltaTime, 0.0f);
+         transform.rotation = Quaternion.LookRotation(direction);
+
+         _animatorController.PlaySprint();
       }
       
       else if (_joystick.Horizontal == 0 && _joystick.Vertical == 0)

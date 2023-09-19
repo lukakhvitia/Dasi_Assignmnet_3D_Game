@@ -21,4 +21,14 @@ public class AnimatorController : MonoBehaviour
     {
         _animator.Play("RunForward");
     }
+
+    public void PlaySprint()
+    {
+        _animator.Play("Sprint");
+    }
+
+    public void PlayDeath()
+    {
+        _animator.Play("Death");
+    }
 }
