@@ -20,15 +20,17 @@ public class EnemyAI : MonoBehaviour
    [Header("Player Health")] //Player Health Options
    [SerializeField] private PlayerHealth playerHealth;
    [SerializeField] private int damageToTake = 10;
-   
+
    [Header("Patrolling")] //Patrolling
-   public Vector3 walkPoint;
-   private bool _walkPointSet;
-   public float walkPointRange;
+   public Transform[] wayPoints;
+   private Vector3 target;
+   private int currentWaypointIndex;
+   public int patrollingSpeed = 4;
    
    [Header("Attacking")] //Attacking
    public float timeBetweenAttacks;
    private bool _alreadyAttacked;
+   public int chaseSpeed = 9;
 
    [Header("States")] //States 
    public float sightRange;
@@ -36,17 +38,32 @@ public class EnemyAI : MonoBehaviour
    public bool playerInSightRange;
    public bool playerInAttackRange;
 
+
+
+   public float remainingDistanceToWayPoint = 3f;
+   private void Start()
+   {
+      SetDestinationToWaypoint(currentWaypointIndex);
+   }
+
    private void Update()
    {
       //Check for sight and attack range
       playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
       playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-      if (!playerInSightRange && !playerInSightRange)
+      if (!playerInSightRange && !playerInAttackRange)
       {
-         Patrolling();
+         if (!agent.pathPending && agent.remainingDistance < remainingDistanceToWayPoint)
+         {
+            // Move to the next waypoint in a loop
+            currentWaypointIndex = (currentWaypointIndex + 1) % wayPoints.Length;
+            SetDestinationToWaypoint(currentWaypointIndex);
+         }
+         
+         agent.speed = patrollingSpeed;
       }
-
+      
       if (playerInSightRange && !playerInAttackRange)
       {
          ChasePlayer();
@@ -58,45 +75,24 @@ public class EnemyAI : MonoBehaviour
       }
    }
 
-
    private void Patrolling()
    {
-      if (!_walkPointSet) SearchWalkPoint();
       
-      animationController.PlayWalk();
       
-      if (_walkPointSet)
-      {
-         agent.SetDestination(walkPoint);
-      }
-
-      Vector3 distanceToWalkPoint = transform.position - walkPoint;
-      
-      //Walk point Reached
-      if (distanceToWalkPoint.magnitude < 1f)
-      {
-         _walkPointSet = false;
-      }
    }
+   
+   private void SetDestinationToWaypoint(int waypointIndex)
+   {
+      // Set the agent's destination to the specified waypoint
+      agent.SetDestination(wayPoints[waypointIndex].position);
+   }
+   
    
    private void ChasePlayer()
    {
+      agent.speed = chaseSpeed;
       animationController.PlayRun();
       agent.SetDestination(player.position); 
-   }
-
-   private void SearchWalkPoint()
-   {
-      //Calculate random point in range 
-      float randomZ = Random.Range(-walkPointRange, walkPointRange);
-      float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-      
-      walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-      if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-      {
-         _walkPointSet = true;
-      }
    }
 
    private void AttackPlayer()
@@ -118,7 +114,6 @@ public class EnemyAI : MonoBehaviour
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
          }
-         
    }
    
    private void TakeDamageToPlayer()

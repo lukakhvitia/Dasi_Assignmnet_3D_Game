@@ -561,13 +561,20 @@ MonoBehaviour:
   animationController: {fileID: 1811190578}
   playerHealth: {fileID: 0}
   damageToTake: 10
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 5
+  wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  patrollingSpeed: 4
   timeBetweenAttacks: 0.5
+  chaseSpeed: 9
   sightRange: 10
   attackRange: 2.25
   playerInSightRange: 0
   playerInAttackRange: 0
+  remainingDistanceToWayPoint: 3
 --- !u!1 &3147730822876251608
 GameObject:
   m_ObjectHideFlags: 0
