@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
 {
    [SerializeField] private FloatingJoystick _joystick;
    [SerializeField] private AnimatorController _animatorController;
-
+   
+   
    private CameraMovement _cameraMovement;
 
    public float _moveSpeed;
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
    private void Update()
    {
+      Debug.Log(_rigidbody.velocity);
       Move();
    }
 
@@ -69,4 +71,8 @@ public class PlayerMovement : MonoBehaviour
       _rigidbody.MovePosition(_rigidbody.position + _moveVector);
    }
 
+   private void OnCollisionEnter(Collision other)
+   {
+      _rigidbody.velocity = Vector3.zero;
+   }
 }
