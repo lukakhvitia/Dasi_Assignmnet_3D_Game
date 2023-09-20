@@ -9,19 +9,20 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public static PlayerHealth Instance;
-    
-    public event EventHandler OnPlayerDie;
+   
     
     [SerializeField] private int maxHealth = 100;
     public int currentHealth;
 
     [SerializeField] private TextMeshProUGUI healthText;
 
+    private AnimatorController _animatorController;
+
+    public bool isAlive = true;
     private void Awake()
     {
         Instance = this;
     }
-    
 
     private void Start()
     {
@@ -39,7 +40,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            OnPlayerDie?.Invoke(this, EventArgs.Empty);
+            isAlive = false;
         }
     }
 }

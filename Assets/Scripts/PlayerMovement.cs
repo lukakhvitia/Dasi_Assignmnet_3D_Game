@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
    [SerializeField] private FloatingJoystick _joystick;
    [SerializeField] private AnimatorController _animatorController;
 
+   [SerializeField] private PlayerHealth _playerHealth;
    private CameraMovement _cameraMovement;
 
    public float _moveSpeed;
@@ -23,21 +24,16 @@ public class PlayerMovement : MonoBehaviour
       _rigidbody = GetComponent<Rigidbody>();
    }
 
-   private void Start()
-   {
-      PlayerHealth.Instance.OnPlayerDie += HandlePlayerOnDie;
-   }
-
-   private void HandlePlayerOnDie(object sender, EventArgs e)
-   {
-      _animatorController.PlayDeath();
-   }
-
    private void Update()
    {
       Debug.Log(_rigidbody.velocity);
       _rigidbody.velocity = Vector3.zero;
       Move();
+
+      if (!_playerHealth.isAlive)
+      {
+         _animatorController.PlayDeath();
+      }
    }
 
    private void Move()
