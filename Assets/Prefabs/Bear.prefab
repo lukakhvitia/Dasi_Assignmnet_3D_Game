@@ -455,9 +455,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2490911719918667003}
   - component: {fileID: 8390579766031408769}
-  - component: {fileID: 2673949048845877537}
   - component: {fileID: 2673949048845877546}
-  - component: {fileID: 2673949048845877543}
+  - component: {fileID: 1811190578}
+  - component: {fileID: 1811190579}
   m_Layer: 0
   m_Name: Bear
   m_TagString: Untagged
@@ -492,7 +492,7 @@ Animator:
   m_GameObject: {fileID: 3015916069084487233}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b7822eb5951163b48830b6d9bcbf48b4, type: 3}
-  m_Controller: {fileID: 9100000, guid: e7d3dd0857e3e29408bb1f9a531a8820, type: 2}
+  m_Controller: {fileID: 9100000, guid: 24e1cae85cb3c6c4e873e388364d15a2, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -502,20 +502,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!136 &2673949048845877537
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3015916069084487233}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 4
-  m_Height: 0.15
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.96, z: 0}
 --- !u!195 &2673949048845877546
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -538,7 +524,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2673949048845877543
+--- !u!114 &1811190578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -547,15 +533,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 3015916069084487233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38b0eb833dd0aa444b376c4cb5ad3f7a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6db3e58a91a05d54c9134beedcecf8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyNavMeshAgent: {fileID: 2673949048845877546}
-  chaseDistance: 9
-  _animator: {fileID: 8390579766031408769}
-  damageToGivePlayer: 5
+  animator: {fileID: 8390579766031408769}
+--- !u!114 &1811190579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3015916069084487233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c54c674cb88e3247ba535655cc54376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 2673949048845877546}
   player: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  health: 0
+  animationController: {fileID: 1811190578}
   playerHealth: {fileID: 0}
+  damageToTake: 10
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 5
+  timeBetweenAttacks: 0.5
+  sightRange: 10
+  attackRange: 2.25
+  playerInSightRange: 0
+  playerInAttackRange: 0
 --- !u!1 &3147730822876251608
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +950,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 638496242647925480}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -0.0000000072652453, z: -0.0000005747167}
+  m_LocalEulerAnglesHint: {x: -2.9621222e-24, y: -0.0000000072652133, z: -0.0000005747168}
 --- !u!1 &4728553125897128274
 GameObject:
   m_ObjectHideFlags: 0
