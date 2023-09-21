@@ -8,22 +8,13 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public static PlayerHealth Instance;
-   
-    
     [SerializeField] private int maxHealth = 100;
     public int currentHealth;
 
     [SerializeField] private TextMeshProUGUI healthText;
 
-    private AnimatorController _animatorController;
-
     public bool isAlive = true;
-    private void Awake()
-    {
-        Instance = this;
-    }
-
+ 
     private void Start()
     {
         currentHealth = maxHealth;
